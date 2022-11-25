@@ -1,4 +1,3 @@
 # Reading notes:
-- Leak goroutines: https://betterprogramming.pub/common-goroutine-leaks-that-you-should-avoid-fe12d12d6ee
 - Redis explain: https://architecturenotes.co/redis/
 - Destroy jwt: https://viblo.asia/p/destroy-jsonwebtoken-su-dung-redis-cung-loai-moe-6J3ZgRGRKmB
