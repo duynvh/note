@@ -1,0 +1,4 @@
+
+wrk.method = "GET"
+wrk.headers["Content-Type"] = "application/json"
+wrk.headers["Authorization"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik5EMDAyMDQiLCJ1c2VySWQiOiJORDAwMjA0IiwidXNlcm5hbWUiOiJwaGF0LnBxIiwiZW1wbG95ZWVJZCI6IkFQRzAwMjE5Iiwic3RhdHVzIjoxLCJleHAiOjE2NzExMTIwNDksImlhdCI6MTY3MTA2ODg0OX0.uuFAtW2rXgEDquefFl2Ft_VUhVqLKsmUR1GmOeBgSN8"
