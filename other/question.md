@@ -1,0 +1,13 @@
+### 1. Mình vừa được sếp giao 1 task như thế này , hệ thống chuyển tiền của 1 ngân hàng tầm trung đang muốn nâng cấp lên dùng database connection pool , trước đó mỗi lần query vào db là tạo 1 connection mới gây tốn tài nguyên. Biết rằng trung bình mỗi ngày bank có 30.000.000 giao dịch, trung bình mỗi giao dịch trung bình sẽ query vào db 6 lần cho các thao tác select, insert , update. Hệ thống đang chạy load balancing gồm 2 cluster kết nối vào 1 db oracle ( tạm thời chưa quan tâm db có chạy chế độ cluster hay k ). Vậy trên mỗi cluster phải tính toán và cấu hình như thế nào với các tham số sau : minimum-pool-size ( số kết nối duy trì tối thiểu ) , maximum-pool-size ( số kết nối duy trì tối đa ) . Lưu ý khi số lượng connection vào db  vượt quá maximum-pool-size , nó sẽ chờ đến khi nào có connection nhàn rỗi trong pool mới connect thay vì tạo connection mới.
+
+- Để tính được cái này thì sẽ cần nhiều thông số hơn và cần vừa set vừa monitor để điều chỉnh dần. Mình có thể demo cho bạn cách ước lượng, nhưng mọi con số trong ước lượng này đều là BIẾN SỐ và bạn phải tự thay thế bằng những con số bạn monitor được từ hệ thống nhé. DEMO CÁCH TÍNH THÔI:
+- Giả sử hệ thống chạy với phân bố 80-20 cho 8h hành chính và 16h còn lại (vì ban ngày giờ hành chính thì giao dịch nhiều hơn). Trong 8h này ta cũng giả sử là số giao dịch phân bố đều:
+8h giao dịch ~ 30tr x 80% = 24tr/8h ~ 833 giao dịch/s
+~> Số query là 833 x 6 ~ 5000qps (query/second)
+Với 2 cluster, giả sử mỗi cluster đáp ứng tối thiểu HA là 3 node thì tổng có 6 node, vậy là mỗi node sẽ phát sinh 5000qps / 6 = 833qps
+- Giả sử mỗi query TỐI ĐA là 50ms, thì số query đồng thời tối đa 1 node cần đáp ứng là:
+833qps / 1000ms x 50ms ~ 41.7 query ~ 42 connection
+Nếu mỗi query thực hiện tối thiểu 10ms, thì số query đồng thời tối thiểu 1 node cần đáp ứng là:
+833qps / 1000ms x 10ms ~ 8.3 query ~ 9 connection
+Vậy nếu là bạn thì mình sẽ để 1 node trong cluster (3 node) có cấu hình min pool 10 và max pool 80. Con số max pool là cái cần phải monitor kỹ để có thể đáp ứng được các request peak mang tính thời điểm, kiểu tại 1 thời điểm như lúc chốt giao dịch hay là chuyển khoản theo lô sáng-chiều có số transaction đột biến x2 x3 thì số connection max cũng cần tăng lên tương ứng (hoặc phải scale out thêm node)
+- Sau khi tính được số requirement của mỗi node rồi thì sẽ thử tính xem DB chấp nhận tối đa bao nhiêu để xem số max pool * số node có vượt quá không và cân đối nữa nhé

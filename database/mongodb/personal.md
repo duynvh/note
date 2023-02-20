@@ -15,3 +15,9 @@
   + Design filter & search exactly when inititial database
   + Big collections shouldn't query prefix, regex, text -> Using elasticsearch
   + Caching data which little change.
+---
+### Some useful commands
+- Command restore one collection
+```
+mongorestore -h 192.168.0.17:27352 --username erp2022 --password Erp@hk362#  --db apg_social2021 --collection "soc_posts" --gzip  --archive=bk_mongo_2023_1.gzip
+```
