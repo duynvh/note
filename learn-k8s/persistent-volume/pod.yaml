@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Daemonset
+metadata:
+  name: my-busybox
+spec:
+  selector:
+    matchLabels: 
+      name: my-busybox
+  template:
+    metadata:
+      name: my-busybox
+      labels:
+        name: my-busybox
+    spec:
+      volumes:
+        - name: myvolume
+          persistentVolumeClaim:
+            claimName: pvc
+      containers:
+        - name: my-busybox
+          image: busybox
+          resources:
+            limits:
+              memory: "50Mi"
+              cpu: "500m"
+          commands:
+            - sleep
+            - "600"
+          volumeMounts:
+            - mountPath: "/data"
+              name: myvolume
