@@ -1,0 +1,91 @@
+pipeline {
+    enviroment {
+        dockerimagename = "tindev0702/react-todo"
+        dockerImage = ""
+        DOCKERHUB_CREDENTIALS = credentials('docker-account')
+    }
+
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            spec:
+              serviceAccountName: jenkins-admin
+              dnsConfig:
+                nameservers:
+                  - 8.8.8.8
+              containers:
+              - name: docker
+                image: docker:latest
+                command:
+                - cat
+                tty: true
+                volumeMounts:
+                - mountPath: /var/run/docker.sock
+                  name: docker-sock
+              - name: kubectl
+                image: bitmani/kubectl:latest
+                command:
+                - cat
+                tty: true
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+              imagePullSecrets:
+              - name: regcred
+              volumes:
+              - name: docker-sock
+                hostPath:
+                  path: /var/run/docker.sock
+            '''
+        }
+    }
+
+    stages {
+        stage('Unit Test') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master'
+                }
+            }
+
+            steps {
+                sh 'echo Unit Test'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                container('docker') {
+                    sh 'docker build --network=host -t tindev0702/react-todo .'
+                }
+            }
+        }
+
+        stage('Pushing Image') {
+            steps {
+                container('docker') {
+                    script {
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                        sh 'docker tag tindev0702/react-todo tindev0702/react-todo'
+                        sh 'docker push tindev0702/react-todo:latest'
+                    }
+                }
+            }
+        }
+
+        stage('Deploying App to Kubernetes') {
+            steps {
+                container('kubectl') {
+                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                        sh "cat \$TMPKUBECONFIG"
+                        sh "cp \$TMPKUBECONFIG /.kube/config"
+                        sh 'kubectl apply -f deployment.yaml'
+                        sh 'kubectl apply -f service.yaml'
+                    }
+                }
+            }
+        }
+    }
+}

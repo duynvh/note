@@ -38,3 +38,5 @@ kubectl config set-credentials developer-be --client-certificate=developer-be.cr
 ```bash
 kubectl config set-context developer-be-context --cluster=minikube --user=developer-be
 ```
+
+- Với statefulset thì thường triển khai theo headless service

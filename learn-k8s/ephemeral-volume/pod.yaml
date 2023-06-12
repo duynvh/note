@@ -1,0 +1,14 @@
+apiVersion: v1 
+kind: Pod
+metadata:
+  name: ephemeral-volume-example
+spec:
+  containers:
+  - name: busybox
+    image: nginx:latest
+    volumeMounts:
+      - name: ephemeral-volume
+        mountPath: /test
+  volumes:
+    - name: ephemeral-volume
+      emptyDir: {}
