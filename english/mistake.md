@@ -1,0 +1,16 @@
+## GRAMMAR
+- Next week, I will be changing company
+- He's approachble 
+- I like that he is approachable
+- I have some difficulties
+- He always tells stories to build a more comfortable atmosphere
+- He has to
+- My team and I 
+- He's older. so he might have a hard time catching up with new technologies
+- use technologies for project
+- If someone wants to become a good manager
+- always changing
+- That's the main reason why
+- I wasted a lot of time to
+- is written in English
+- have to be good at
