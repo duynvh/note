@@ -1,0 +1,3 @@
+- Can we move the Foo class to a separate file?
+- Can we rename this variable to something more descriptive, like seconds_remaining?
+- This variable should be renamed to something more descriptive, like seconds_remaining.
