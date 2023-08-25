@@ -70,4 +70,5 @@
   + Server checks Idempotency Key with unique constraint in DB.
 
 ### 7. API Document
-- [REST API Document](./document/REST%20API%20Document.docx)
+- [REST API Document | Word](./document/REST%20API%20Document.docx)
+- [REST API Document | PDF](./document/REST%20API%20Document.pdf)
