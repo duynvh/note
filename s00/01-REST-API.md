@@ -72,3 +72,10 @@
 ### 7. API Document
 - [REST API Document | Word](./document/REST%20API%20Document.docx)
 - [REST API Document | PDF](./document/REST%20API%20Document.pdf)
+
+### 8. References
+- [Microsoft - best practice api design](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design)
+- [Rest API best practices rest endpoint design examples](https://www.freecodecamp.org/news/rest-api-best-practices-rest-endpoint-design-examples/)
+- [Google cloud - Restful web API design](https://cloud.google.com/blog/products/api-management/restful-web-api-design-best-practices)
+- [Stripe API](https://stripe.com/docs/api)
+- [Optimize Paging in MySQL](https://www.iheavy.com/how-to-optimize-paging-in-mysql-3-best-ways/)
