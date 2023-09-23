@@ -88,3 +88,14 @@ Foo -> Foo7: To queue
 
 ## 6. Công thức toán
 $y = x^2$
+
+
+Ex1: \w+.(jpg|png|jpeg)$
+Ex2: ^[0-9.,]+$
+Ex3: ^[\w.]+@[\w-]+(\.\w+)+$
+Ex4: interface (?<interface>.+)\sstatus (?<status>\w+)\sip address (?<ip00>[0-9. ]+)\s(ip address secondary (?<ip01>[0-9. ]+))?
+
+
+Step 1: ^((?!voucher).)*$
+Step 2:   INFO.+User
+Step 3:  claimed voucher
